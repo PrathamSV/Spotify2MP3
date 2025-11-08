@@ -1,0 +1,5 @@
+music_tag==0.4.3
+pydub==0.25.1
+pytubefix==10.2.1
+Requests==2.32.5
+spotipy==2.25.1

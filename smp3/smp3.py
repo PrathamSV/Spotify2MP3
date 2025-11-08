@@ -21,8 +21,8 @@ from .ProgressManager import ProgressManager, simple_bar
 class Spotify2MP3:
     """
 =================================================================================================================
-Spotify2MP3 is a simple and easy Python module for downloading songs from Spotify.
-Song metadata collected from Spotify is used to search YouTube and download.
+Spotify2MP3 is a simple and easy Python module (and command-line utility) for downloading songs from Spotify.
+Song metadata collected from Spotify is used to search YouTube and download audio.
 -----------------------------------------------------------------------------------------------------------------
 See https://developer.spotify.com/ for Spotify API, and information on how to obtain Client ID and Client Secret.
 =================================================================================================================
