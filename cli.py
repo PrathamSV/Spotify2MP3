@@ -3,11 +3,8 @@ from os.path import exists, isdir, isfile
 # Local
 from smp3 import Spotify2MP3, SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, SAVE_PATH, DOWNLOAD_PATH
 
-parser = argparse.ArgumentParser(description=    """
-
-Spotify2MP3 is a simple and easy Python module and (command-line utility) for downloading songs from Spotify.
-Song metadata collected from Spotify is used to search YouTube and download audio.
-    """)
+parser = argparse.ArgumentParser(description="""Spotify2MP3 is a simple and easy Python module and (command-line utility) for downloading songs from Spotify.
+Song metadata collected from Spotify is used to search YouTube and download audio.""", formatter_class=argparse.RawDescriptionHelpFormatter)
 
 parser.add_argument('type', metavar='type', type=str, choices=['track', 'playlist', 'album', 'user', 'artist'], help='Type. Choices: track, playlist, album, user, artist')
 group = parser.add_mutually_exclusive_group(required=True)
