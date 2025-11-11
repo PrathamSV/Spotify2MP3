@@ -11,7 +11,7 @@ Song metadata collected from Spotify is used to search YouTube and download.
    Visit the Spotify developer [website](https://developer.spotify.com/) to obtain Client ID and Secret.
    
 3. <b>Install requirements</b><br>
-   Navigate to smp3 folder and run:
+   Navigate to Spotify2MP3 folder and run:
    ```sh
    pip install -r requirements.txt
    ```
@@ -47,7 +47,7 @@ s.download_namelist(file_path=list_path, type='track')
    Add obtained Spotify Client ID and Secret to [\_\_init\_\_.py](/smp3/__init__.py)
 
 5. <b>Run CLI</b><br>
-   Navigate to smp3 folder and run:
+   Navigate to Spotify2MP3 folder and run:
    ```sh
    py cli.py -h
    ```
