@@ -379,7 +379,7 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
                 raise ValueError("Incorrect Type")
 
             if type == 'track':
-                self.save_track(track=data, output_file=utput_file)
+                self.save_track(track=data, output_file=output_file)
             else:
                 self.save_tracks(tracks=data, output_file=output_file)
 
@@ -676,7 +676,7 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         :rtype: list[str]
         """
         if self.dir is None:
-            System.out.println("Directory not set")
+            print("Directory not set")
             return
 
         file_list = []
@@ -736,7 +736,7 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
 
 
     @contextmanager
-    def __suppress_std(self) -> None:
+    def __suppress_std(self):
         """Supresses StdOut and StdErr.
         Because some modules output too much to the terminal
         """
