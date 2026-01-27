@@ -1,3 +1,6 @@
+```
+Planning to rewrite the codebase and reduce dependencies
+```
 # Spotify2MP3
 
 Spotify2MP3 is a simple and easy Python module (and command-line utility) for downloading songs from Spotify.
