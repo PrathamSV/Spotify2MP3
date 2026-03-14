@@ -11,7 +11,6 @@ import spotipy
 from pydub import AudioSegment
 from pytubefix import Search, exceptions
 from spotipy.oauth2 import SpotifyClientCredentials
-import json
 
 # Local Imports
 from .track import TracksDict, TDValue, Track
@@ -258,15 +257,15 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         if not output_file[-4:] == ".txt":
             raise NameError("File should be a .txt")
 
+        output_str = syntax
+
+        output_str = output_str.replace('ID', track.id)
+        output_str = output_str.replace('NAME', track.name)
+        output_str = output_str.replace('ARTIST', track.artist)
+        output_str = output_str.replace('ALBUM', track.album)
+        output_str = output_str.replace('ARTWORK', track.artwork)
+
         with open(output_file, 'a', encoding='utf-8') as file:
-            output_str = syntax
-
-            output_str = output_str.replace('ID', track.id)
-            output_str = output_str.replace('NAME', track.name)
-            output_str = output_str.replace('ARTIST', track.artist)
-            output_str = output_str.replace('ALBUM', track.album)
-            output_str = output_str.replace('ARTWORK', track.artwork)
-
             file.write(output_str)
 
         print("track saved:", track.name)
@@ -286,17 +285,19 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         if not output_file[-4:] == ".txt":
             raise NameError("File should be a .txt")
 
+        out = []
+        for id, value in tracks.items():
+            output_str = syntax
+
+            output_str = output_str.replace("ID", id)
+            output_str = output_str.replace("NAME", value.name)
+            output_str = output_str.replace("ARTIST", value.artist)
+            output_str = output_str.replace("ALBUM", value.album)
+            output_str = output_str.replace("ARTWORK", value.artwork)
+            out.append(output_str)
+
         with open(output_file, 'a', encoding='utf-8') as file:
-            for id, value in tracks.items():
-                output_str = syntax
-
-                output_str = output_str.replace("ID", id)
-                output_str = output_str.replace("NAME", value.name)
-                output_str = output_str.replace("ARTIST", value.artist)
-                output_str = output_str.replace("ALBUM", value.album)
-                output_str = output_str.replace("ARTWORK", value.artwork)
-
-                file.write(output_str + delim)
+            file.write(delim.join(out)+delim)
 
         print(len(tracks), 'tracks saved successfully')
 
@@ -355,8 +356,10 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         file = open(file_path).read()
 
         items = file.split(delim)
+        items = [q for q in items if q]
 
         failed = []
+        datalist = []
 
         for query in list(items):
 
@@ -379,9 +382,14 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
                 raise ValueError("Incorrect Type")
 
             if type == 'track':
-                self.save_track(track=data, output_file=output_file)
+                datalist.append(data)
             else:
                 self.save_tracks(tracks=data, output_file=output_file)
+
+        if datalist:
+            tracks = TracksDict()
+            tracks.from_tracklist(l=datalist)
+            self.save_tracks(tracks=tracks, output_file=output_file)
 
         if len(failed) > 0:
             print("\nfailed: " + str(failed))
@@ -409,7 +417,7 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         query = query.replace('ALBUM', track.album)
 
         with self.__suppress_std():
-            result = Search(query, 'WEB').results[0]
+            result = Search(query).results[0]
             stream = result.streams.filter(only_audio=True).order_by('abr').last()
 
         downloaded_path = stream.download(output_path=self.dir)
@@ -472,7 +480,7 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
 
                 with self.__suppress_std():
 
-                    result = Search(query, 'WEB').results[0]
+                    result = Search(query).results[0]
 
                 stream = result.streams.filter(only_audio=True).order_by('abr').last()  # get stream
 
@@ -601,15 +609,13 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
         file = open(file_path).read()
 
         items = file.split(delim)
+        items = [q for q in items if q]
 
         paths = []
         failed = []
         count = 0
 
-
         for query in list(items):
-            if not query:
-                continue
 
             all_results = self.sp.search(q=f'{type}:{query}', type=type, limit=self.search_lim)[type + "s"]["items"]
             if len(all_results) < 1:
@@ -645,6 +651,8 @@ See https://developer.spotify.com/ for Spotify API, and information on how to ob
             simple_bar(max_count=len(items), count=count, msg=f'downloaded {query}')
 
             paths.append(path)
+
+        simple_bar(max_count=len(items), count=count, msg=f'completed')
 
         if len(failed) > 0:
             print("\nfailed: " + str(failed))
