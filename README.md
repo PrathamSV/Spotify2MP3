@@ -1,6 +1,3 @@
-```
-Planning to rewrite the codebase and reduce dependencies
-```
 # Spotify2MP3
 
 Spotify2MP3 is a simple and easy Python module (and command-line utility) for downloading songs from Spotify.
@@ -8,21 +5,29 @@ Song metadata collected from Spotify is used to search YouTube and download.
 
 <br><br>
 
-## Module Usage
+## Setup
 
-1. <b>Setup Spotify API</b><br>
-   Visit the Spotify developer [website](https://developer.spotify.com/) to obtain Client ID and Secret.
+1. <b>Get Spotify API</b><br>
+   Visit the [Spotify developer website](https://developer.spotify.com/) to obtain Client ID and Secret.
+
+2. <b>Add package-level constants</b><br>
+   Add obtained Spotify Client ID and Secret to [\_\_init\_\_.py](https://github.com/PrathamSV/Spotify2MP3/blob/main/smp3/__init__.py)
    
 3. <b>Install requirements</b><br>
    Navigate to Spotify2MP3 folder and run:
    ```sh
    pip install -r requirements.txt
    ```
+<br>
 
-4. <b>Import package</b>
-   ```py
-   from smp3 import Spotify2MP3
-   ```
+## Usage
+
+### Module Usage
+
+<b>Import package</b>
+```py
+from smp3 import Spotify2MP3
+```
 
 #### Example script
 ```py
@@ -41,33 +46,27 @@ s.set_dir(download_dir)
 s.download_namelist(file_path=list_path, type='track')
 ```
 <br><br>
-## CLI Usage
+### CLI Usage
 
-1. <b>Setup Spotify API</b><br>
-   Visit the Spotify developer [website](https://developer.spotify.com/) to obtain Client ID and Secret.
+<b>Run CLI</b><br>
+```sh
+py cli.py -h
+```
 
-3. <b>Add package-level constants</b><br>
-   Add obtained Spotify Client ID and Secret to [\_\_init\_\_.py](/smp3/__init__.py)
+> [!NOTE]
+> The download/save directories can be set as constants in the [\_\_init\_\_.py](https://github.com/PrathamSV/Spotify2MP3/blob/main/smp3/__init__.py) file.
+This is to prevent you from having to specify them for every command. You need only pass the `-s` or `-d` flags for saving and downloading respectively.
 
-5. <b>Run CLI</b><br>
-   Navigate to Spotify2MP3 folder and run:
-   ```sh
-   py cli.py -h
-   ```
-
-### Example commands
+#### Example commands
 ```sh
 py cli.py -n "Night Running" track -d
-```
-```sh
-py cli.py -i "6lRU3pKjNnSI9svHzznkC6" track -d
 ```
 ```sh
 py cli.py -i "https://open.spotify.com/album/2x6LWti2bjYS6AllSomoV7" album -s
 ```
 ```sh
+py cli.py -i "<user profile link>" user -d
+```
+```sh
 py cli.py -nl "songs.txt" track -d
 ```
-<br>
-
-> This is an old project of mine that I ported over to GitHub
